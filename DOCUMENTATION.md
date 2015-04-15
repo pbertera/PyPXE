@@ -154,6 +154,9 @@ The DHCP server class, __`DHCPD()`__, is constructed with the following __keywor
 * __`logger`__
   * Description: A [Logger](https://docs.python.org/2/library/logging.html#logger-objects) object used for logging messages, if `None` a local [StreamHandler](https://docs.python.org/2/library/logging.handlers.html#streamhandler) instance will be created
   * Default: `None` 
+* --`vc_regex`__
+  * Description: A regex used to match in Vendor-Class option (60) only requests with matching vendor calls vill be processed
+  * Default: ``PXEClient`
 
 ##HTTP Server `pypxe.http`
 

@@ -16,7 +16,7 @@ class TFTPD:
     '''
     def __init__(self, **serverSettings):
         self.ip = serverSettings.get('ip', '0.0.0.0')
-        self.port = serverSettings.get('port', 69)
+        self.port = serverSettings.get('port', 79)
         self.netbootDirectory = serverSettings.get('netbootDirectory', '.')
         self.logger = serverSettings.get('logger', None)
         self.mode_debug = serverSettings.get('mode_debug', False)

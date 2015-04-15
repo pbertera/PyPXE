@@ -7,6 +7,7 @@ This file contains classes and functions that implement the PyPXE DHCP service
 import socket
 import struct
 import os
+import re
 from collections import defaultdict
 from time import time
 
@@ -33,7 +34,8 @@ class DHCPD:
         self.http = serverSettings.get('usehttp', False)
         self.mode_proxy = serverSettings.get('mode_proxy', False) #ProxyDHCP mode
         self.logger =  serverSettings.get('logger', None)
-        self.mode_debug =  serverSettings.get('mode_debug', False)
+        self.mode_debug = serverSettings.get('mode_debug', False)
+        self.vendor_class_regex = serverSettings.get('vc_regex', 'PXEClient')
         self.magic = struct.pack('!I', 0x63825363) #magic cookie
 
         if self.logger == None:
@@ -69,6 +71,7 @@ class DHCPD:
         self.logger.debug('\tProxyDHCP Mode: ' + str(self.mode_proxy))
         self.logger.debug('\tUsing iPXE: ' + str(self.ipxe))
         self.logger.debug('\tUsing HTTP Server: ' + str(self.http))
+        self.logger.debug('\tUsing Vendor Class filter: ' + self.vendor_class_regex)
 
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -241,6 +244,13 @@ class DHCPD:
             options = self.tlvParse(message[240:])
             self.logger.debug('Parsed received options')
             self.logger.debug('\t<--BEGIN OPTIONS-->\n\t' + repr(options) + '\n\t<--END OPTIONS-->')
+            if self.vendor_class_regex:
+                if not 60 in options:
+                    self.logger.debug('No vendor class in request, skipping')
+                    continue
+                if not re.search(self.vendor_class_regex, options[60][0]):
+                    self.logger.debug('No vendor class match in request, skipping')
+                    continue
             #if not (60 in options and 'PXEClient' in options[60][0]) : continue
             type = ord(options[53][0]) #see RFC2131 page 10
             if type == 1:

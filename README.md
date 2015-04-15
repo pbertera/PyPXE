@@ -92,6 +92,9 @@ The following are arguments that can be passed to `pypxe-server.py` when running
   * __`-f DHCP_FILESERVER_IP`__ or __`--dhcp-fileserver-ip DHCP_FILESERVER_IP`__
     * Description: Specify DHCP file server IP address
     * Default: `192.168.2.2`
+  * __`-v DHCP_VENDOR_CLASS`__ or __`--vendor-class DHCP_VENDOR_CLASS`__
+    * Description: Specify a DHCP vendor class regexp for accepting requests
+    * Default: `PXEClient`
 * __File Name/Directory Arguments__
   * __`-a NETBOOT_DIR`__ or __`--netboot-dir NETBOOT_DIR`__
     * Description: Specify the local directory where network boot files will be served 

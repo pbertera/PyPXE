@@ -30,6 +30,7 @@ DHCP_ROUTER = '192.168.2.1'
 DHCP_DNS = '8.8.8.8'
 DHCP_BROADCAST = '<broadcast>'
 DHCP_FILESERVER = '192.168.2.2'
+DHCP_VENDOR_CLASS = 'PXEClient'
 
 if __name__ == '__main__':
     try:
@@ -63,6 +64,7 @@ if __name__ == '__main__':
         parser.add_argument('-d', '--dhcp-dns', action = 'store', dest = 'DHCP_DNS', help = 'DHCP lease DNS server', default = DHCP_DNS)
         parser.add_argument('-c', '--dhcp-broadcast', action = 'store', dest = 'DHCP_BROADCAST', help = 'DHCP broadcast address', default = DHCP_BROADCAST)
         parser.add_argument('-f', '--dhcp-fileserver', action = 'store', dest = 'DHCP_FILESERVER', help = 'DHCP fileserver IP', default = DHCP_FILESERVER)
+        parser.add_argument('-v', '--vendor-class', action = 'store', dest = 'DHCP_VENDOR_CLASS', help = 'DHCP Vendor-Class match regex', default = DHCP_VENDOR_CLASS)
 
         #network boot directory and file name arguments
         parser.add_argument('-a', '--netboot-dir', action = 'store', dest = 'NETBOOT_DIR', help = 'Local file serve directory', default = NETBOOT_DIR)
@@ -137,6 +139,7 @@ if __name__ == '__main__':
                     usehttp = args.USE_HTTP,
                     mode_proxy = args.DHCP_MODE_PROXY,
                     mode_debug = args.MODE_DEBUG,
+                    vc_regex = args.DHCP_VENDOR_CLASS,
                     logger = logger)
             dhcpd = threading.Thread(target = dhcpServer.listen)
             dhcpd.daemon = True
